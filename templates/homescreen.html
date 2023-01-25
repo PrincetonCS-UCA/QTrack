@@ -7,12 +7,16 @@
 </head>
 
 <body>
-    {% include 'header.html' %}
-    {% include 'searchbar.html' %}
-    {% include 'active.html' %}
-    {% include 'period.html' %}
-    {% include 'shift.html' %}
-    {% include 'footer.html' %}
+    <div id="page-container">
+        {% include 'header.html' %}
+        <div id="content-wrap">
+            {% include 'searchbar.html' %}
+            {% include 'active.html' %}
+            {% include 'period.html' %}
+            {% include 'shift.html' %}
+        </div>
+        {% include 'footer.html' %}
+    </div>
 </body>
 
 </html>
