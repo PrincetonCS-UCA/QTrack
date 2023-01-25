@@ -18,7 +18,7 @@ import json
 
 app = Flask(__name__)
 app.secret_key = os.urandom(16)
-wsse_auth = WSSEAuth(api_auth.username, api_auth.API_SECRET)
+wsse_auth = WSSEAuth(os.getenv("USERNAME"), os.getenv("API_SECRET"))
 TIME_FORMAT_STR = "%H:%M"
 DATE_FORMAT_STR = "%Y-%m-%d"
 DATE_TIME_FORMAT_STR = DATE_FORMAT_STR+"T"+TIME_FORMAT_STR
