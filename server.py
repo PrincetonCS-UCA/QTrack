@@ -11,14 +11,13 @@ from wsse.client.requests.auth import WSSEAuth
 import requests
 
 import auth
-import api_auth
 from roster import student_search
 import json
 # from shift_search import shift
 
 app = Flask(__name__)
 app.secret_key = os.urandom(16)
-wsse_auth = WSSEAuth(os.getenv("USERNAME"), os.getenv("API_SECRET"))
+wsse_auth = WSSEAuth(os.getenv("API_USERNAME"), os.getenv("API_SECRET"))
 TIME_FORMAT_STR = "%H:%M"
 DATE_FORMAT_STR = "%Y-%m-%d"
 DATE_TIME_FORMAT_STR = DATE_FORMAT_STR+"T"+TIME_FORMAT_STR

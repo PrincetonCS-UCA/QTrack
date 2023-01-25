@@ -1,9 +1,9 @@
 from wsse.client.requests.auth import WSSEAuth
 import requests
 import statistics
-from api_auth import username, API_SECRET
+import os
 
-wsse_auth = WSSEAuth(username, API_SECRET)
+wsse_auth = WSSEAuth(os.getenv("API_USERNAME"), os.getenv("API_SECRET"))
 
 """
 Check for a specific shift, if people are contributing enough. Precisiely,
