@@ -11,14 +11,14 @@ from wsse.client.requests.auth import WSSEAuth
 import requests
 
 import auth
-from api_auth import username, API_SECRET
+import api_auth
 from roster import student_search
 import json
 # from shift_search import shift
 
 app = Flask(__name__)
 app.secret_key = os.urandom(16)
-wsse_auth = WSSEAuth(username, API_SECRET)
+wsse_auth = WSSEAuth(api_auth.username, api_auth.API_SECRET)
 TIME_FORMAT_STR = "%H:%M"
 DATE_FORMAT_STR = "%Y-%m-%d"
 DATE_TIME_FORMAT_STR = DATE_FORMAT_STR+"T"+TIME_FORMAT_STR
@@ -32,7 +32,7 @@ full_roster = {}
 def home_page():
     if not session.get('username'):
         return redirect('/next')
-    html = render_template('homescreen.html',
+    html = render_template('index.html',
                            active={},
                            period={},
                            shift={})
@@ -63,8 +63,6 @@ def single_student_data(netid):
             'activehtml': activeHtml,
             'present': activeDict['present'],
             'selectedhtml': "<button class='selected {}-comp' value={}><span>{} ({})</span></button>\n".format(netid, netid, full_roster[netid]['name'], netid),
-            # TODO fix this please
-            'script': "<script>$('.selected').click(removeStudent)</script>"
             }
 
 
@@ -132,7 +130,7 @@ def search_students():
         for i in students:
             html += "<button class='searchresult' value={}><span>{} ({})</span></button>\n".format(
                 i, students[i], i)
-        html += """<script>$('.searchresult').click(addStudent)</script>"""
+        html += "<script>$('.searchresult').click(addStudent)</script>"
     elif code == 1:  # success, but too many results
         html += "<em>Too many results, try narrowing your search</em>"
     elif code == 2:  # empty result

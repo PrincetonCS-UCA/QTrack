@@ -12,10 +12,9 @@ function selected() {
 }
 
 function addStudentHelper(parsed) {
-   $('#periodDataWrapper').append(parsed.periodhtml)
    $('#selectedStudents').append(parsed.selectedhtml)
-   $('#TODOremove').html(parsed.script) // TODO please fix this is dumb
    $("#selectedStudents").show()
+   $('#periodDataWrapper').append(parsed.periodhtml)
    if (parsed.present) {
       $('#activePresent').append(parsed.activehtml)
    }
@@ -44,8 +43,9 @@ function addStudent() {
          type: 'GET',
          url: url,
          success: function (res) {
-            let parsed = JSON.parse(res)
-            addStudentHelper(parsed);
+            let obj = JSON.parse(res)
+            addStudentHelper(obj);
+            $('#removeSelectedScriptDiv').html("<script>$('.selected').click(removeStudent)</script>") // dom doesn't recognize new elements
             getSearchResults();
          }
       }
@@ -103,8 +103,10 @@ $(function () {
    $('.searchbar-button').click(function (event) {
       let start = $('#startInput').val();
       let end = $('#endInput').val()
+      let course = event.target.value;
       start = encodeURIComponent(start);
       end = encodeURIComponent(end);
+      course = encodeURIComponent(course)
       if (request != null)
          request.abort();
 
@@ -112,16 +114,17 @@ $(function () {
          request = $.ajax(
          {
             type: 'GET',
-            url: `/coursestudents?pst=${start}&pet=${end}&sel=${selected()}&course=${encodeURIComponent(event.target.value)}`,
+            url: `/coursestudents?pst=${start}&pet=${end}&sel=${selected()}&course=${course}`,
             success: (res) => {
                let parsed = JSON.parse(res);
                for(let netid of parsed.remove){
                   removeStudentHelper(netid)
                }
-               for (let piece of parsed.add) {
-                  addStudentHelper(piece)
+               for (let netid of parsed.add) {
+                  addStudentHelper(netid)
                }   
                $(".loader").hide()
+               $('#removeSelectedScriptDiv').html("<script>$('.selected').click(removeStudent)</script>") // dom doesn't recognize new elements
                getSearchResults()
             }
          }
