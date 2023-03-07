@@ -18,7 +18,7 @@ from flask import session, abort
 
 # -----------------------------------------------------------------------
 
-_CAS_URL = 'https://fed.princeton.edu/cas/'
+_CAS_URL = 'https://casts.cs.princeton.edu/cas/'
 
 
 # -----------------------------------------------------------------------
